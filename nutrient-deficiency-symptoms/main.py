@@ -1,44 +1,57 @@
-import os
+from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-import traceback
+import numpy as np
+from io import BytesIO
+from PIL import Image
 import tensorflow as tf
-
-from pydantic import BaseModel
-from urllib.request import Request
-from fastapi import FastAPI, Response, UploadFile, File
-from utils import load_image_into_numpy_array
-
-model = tf.keras.models.load_model('./my_model.h5')
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+MODEL = tf.keras.models.load_model("saved_model/my_model.h5")
+
+CLASS_NAMES = ["Nitrogen", "Phosphorus", "Potassium"]
+
 @app.get("/")
-def index():
-    return "Hello world endpoint!"
+async def index():
+    return "We're now LIVE!"
 
-@app.post("/predict_image")
-def predict_image(uploaded_file: UploadFile, response: Response):
-    try:
-        # Checking if it's an image
-        if uploaded_file.content_type not in ["image/jpeg", "image/png"]:
-            response.status_code = 400
-            return "File is Not an Image"
-        
-        image = load_image_into_numpy_array(uploaded_file.file.read())
-        print("Image shape:", image.shape)
-        
-        pp_input = preprocessing.image.load_img(uploaded_file.file_name, target_size=(224, 224))
-        pp_input = tf.expand_dims(pp_input, axis=0)
-        result = model.predict(pp_input)
-        
-        return "Insert result here"
-    except Exception as e:
-        traceback.print_exc()
-        response.status_code = 500
-        return "Internal Server Error"
+def read_file_as_image(data) -> np.ndarray:
+    image = np.array(Image.open(BytesIO(data)))
+    # Resize the image
+    resized_image = Image.fromarray(image).resize((224, 224))
 
-port = os.environ.get("PORT", 8080)
-print(f"Listening to http://0.0.0.0:{port}")
+    # Convert the resized image back to a NumPy array
+    resized_image = np.array(resized_image)
+    return resized_image
+
+@app.post("/predict")
+async def predict(
+    file: UploadFile = File(...)
+):
+    image = read_file_as_image(await file.read())
+    img_batch = np.expand_dims(image, 0)
+    
+    predictions = MODEL.predict(img_batch)
+
+    predicted_class = CLASS_NAMES[np.argmax(predictions[0])]
+    confidence = np.max(predictions[0])
+    return {
+        'class': predicted_class,
+        'confidence': float(confidence)
+    }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='0.0.0.0',port=port)
+    uvicorn.run(app, host='localhost', port=8000)
