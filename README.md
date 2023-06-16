@@ -16,9 +16,6 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -27,12 +24,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#datasets">Datasets</a></li>
   </ol>
 </details>
 
@@ -50,3 +42,22 @@ This model calculates recommendations for each user based on their unique purcha
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- DATASETS -->
+## Datasets
+1. Nutrient Deficiency Symptoms in Rice: https://www.kaggle.com/datasets/guy007/nutrientdeficiencysymptomsinrice
+
+This dataset used to train the Nutrient Deficiency Detection model. This dataset consists only images of rice leaf. In the future, its best to add more plant types datasets.
+### Sample
+![image](https://github.com/Pupuk-In/Machine-Learning/assets/62583810/d3e98fa7-964c-4d28-bffc-1437b442901a)
+
+2. Machine Translated Indonesian STS-B: https://huggingface.co/datasets/LazarusNLP/stsb_mt_id
+
+This dataset used to train a NLU model to calculate the similarity of sentences by comparing the text embeddings with cosine similarity.
+### Sample
+![image](https://github.com/Pupuk-In/Machine-Learning/assets/62583810/581d4752-e4ae-4ef5-a6f5-90ede7576215)
+
+3. Pupuk.In syntesis product: https://github.com/Pupuk-In/product-recommendation/blob/main/Dataset%20Produk%20Pupuk.csv
+
+This dataset used to test the product recommendation model output.
+### Sample
+![image](https://github.com/Pupuk-In/Machine-Learning/assets/62583810/42c093b6-0fba-4435-a799-a20b44e9aa8e)
