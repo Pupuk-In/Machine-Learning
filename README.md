@@ -2,8 +2,8 @@
 <br />
 <div align="center">
    <p align="center">
-      <img src="https://github.com/Pupuk-In/Machine-Learning/assets/87064650/23e6576c-c46d-4f67-a41d-3c7da3cd82fb" alt="pupukin-logo">
-    </p>
+     <img src="https://github.com/Pupuk-In/.github/assets/87064650/2db0c8de-65c6-4f6e-81ba-645db1219d31" alt="pupukin-logo" width="400px">
+   </p>
   <h3 align="center">Pupuk.In</h3>
   <p align="center">
     The machine learning side of Pupuk.In application.
